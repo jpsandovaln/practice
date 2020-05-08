@@ -22,15 +22,14 @@ import java.io.File;
  */
 public class Extractor {
 
-    public String extract(ExtractTextParam param) {
-        File image = new File(param.getImageFile());
+    public String extract(ExtractTextParam param) throws Exception {
         ITesseract ext = new Tesseract();
         ext.setDatapath(param.getTessData());
         ext.setLanguage(param.getLang());
         try {
-            return ext.doOCR(image);
+            return ext.doOCR(param.getInputFile());
         } catch (TesseractException ex) {
-            return "error";
+            throw new Exception(ex.getMessage());
         }
     }
 }

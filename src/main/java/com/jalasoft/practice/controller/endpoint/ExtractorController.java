@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,21 +22,21 @@ public class ExtractorController {
 
     @PostMapping("/extractor")
     public String extract(@RequestParam(value="lang") String lang,
+                          @RequestParam(value="md5") String md5,
                           @RequestParam(value="file") MultipartFile file) {
-        if (lang.isEmpty()) {
-            return "error lang1";
+        if (md5.trim().isEmpty()) {
+            return "error md5";
         }
-        if(!"eng".equals(lang)) {
-            return "error lang2";
-        }
-        if (file.isEmpty()) {
-            return "error file";
-        }
+        /* if(md5.length() != 32) {
+            return "error md5";
+        } */
         String fileInput;
+        File image;
         try {
             String folder = "imageFolder/";
             Files.createDirectories(Paths.get(folder));
             fileInput = folder + file.getOriginalFilename();
+            image = new File(fileInput);
             Path path = Paths.get(fileInput);
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
@@ -44,11 +45,12 @@ public class ExtractorController {
 
         String tessData = "thirdParty/Tess4J/tessdata";
         Extractor ext = new Extractor();
-        ExtractTextParam param = new ExtractTextParam();
-        param.setImageFile(fileInput);
-        param.setLang(lang);
-        param.setTessData(tessData);
-        String result = ext.extract(param);
-        return result;
+        try {
+            ExtractTextParam param = new ExtractTextParam(image, lang, tessData);
+            param.validate();
+            return ext.extract(param);
+        } catch (Exception ex) {
+            return ex.getMessage();
+        }
     }
 }
