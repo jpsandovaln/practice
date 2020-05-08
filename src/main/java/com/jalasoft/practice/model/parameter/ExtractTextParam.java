@@ -9,21 +9,21 @@
 
 package com.jalasoft.practice.model.parameter;
 
+import java.io.File;
+
 /**
  * @author HP
  * @version 1.1
  */
-public class ExtractTextParam {
-    private String imageFile;
+public class ExtractTextParam extends Parameter {
+
     private String lang;
     private String tessData;
 
-    public String getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(String imageFile) {
-        this.imageFile = imageFile;
+    public ExtractTextParam(File file, String lang, String tessData) {
+        super(file);
+        this.lang = lang;
+        this.tessData = tessData;
     }
 
     public String getLang() {
@@ -42,5 +42,14 @@ public class ExtractTextParam {
         this.tessData = tessData;
     }
 
-
+    @Override
+    public void validate() throws Exception {
+        super.validate();
+        if (this.lang.trim().isEmpty()) {
+            throw new Exception("error lang");
+        }
+        if(!"eng".equals(lang)) {
+            throw new Exception("error lang not valid");
+        }
+    }
 }
