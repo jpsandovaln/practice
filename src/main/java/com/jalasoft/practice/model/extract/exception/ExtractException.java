@@ -7,24 +7,21 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.controller.response;
+package com.jalasoft.practice.model.extract.exception;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class Response {
-    String status;
+public class ExtractException extends Exception {
 
-    public Response(String status) {
-        this.status =  status;
+    private static final String MESSAGE = "Error extracting information from file.";
+
+    public ExtractException(String currentMessage, Throwable ex) {
+        super(currentMessage, ex);
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public ExtractException(Throwable ex) {
+        super(MESSAGE, ex);
     }
 }

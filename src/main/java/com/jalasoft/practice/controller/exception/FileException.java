@@ -7,24 +7,18 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.controller.response;
+package com.jalasoft.practice.controller.exception;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class Response {
-    String status;
-
-    public Response(String status) {
-        this.status =  status;
+public class FileException extends Exception {
+    public FileException(String message, Throwable ex) {
+        super(message, ex);
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public FileException(String message) {
+        super(message);
     }
 }
