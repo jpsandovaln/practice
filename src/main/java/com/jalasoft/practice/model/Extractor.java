@@ -23,6 +23,7 @@ import java.io.File;
 public class Extractor {
 
     public String extract(ExtractTextParam param) throws Exception {
+        param.validate();
         ITesseract ext = new Tesseract();
         ext.setDatapath(param.getTessData());
         ext.setLanguage(param.getLang());
