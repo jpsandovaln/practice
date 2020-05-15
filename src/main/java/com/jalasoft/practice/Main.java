@@ -1,6 +1,5 @@
 package com.jalasoft.practice;
 
-import com.jalasoft.practice.controller.HelloController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 

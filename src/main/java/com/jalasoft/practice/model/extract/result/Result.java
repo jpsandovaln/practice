@@ -7,24 +7,24 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.controller.response;
+package com.jalasoft.practice.model.extract.result;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class Response {
-    String status;
+public class Result {
+    private String text;
 
-    public Response(String status) {
-        this.status =  status;
+    public Result(String text) {
+        this.text = text.trim();
     }
 
-    public String getStatus() {
-        return status;
+    public String getText() {
+        return text;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setText(String text) {
+        this.text = text;
     }
 }

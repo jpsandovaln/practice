@@ -7,30 +7,33 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.model;
+package com.jalasoft.practice.model.extract;
 
-import com.jalasoft.practice.model.parameter.ExtractTextParam;
+import com.jalasoft.practice.model.extract.exception.ExtractException;
+import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
+import com.jalasoft.practice.model.extract.parameter.ExtractTextParam;
+import com.jalasoft.practice.model.extract.result.Result;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-import java.io.File;
 /**
  *
  * @author HP
  * @version 1.1
  */
-public class Extractor {
+public class ExtractorTextFromImage implements IExtractor {
 
-    public String extract(ExtractTextParam param) throws Exception {
+    @Override
+    public Result extract(ExtractTextParam param) throws ParameterInvalidException, ExtractException {
         param.validate();
         ITesseract ext = new Tesseract();
         ext.setDatapath(param.getTessData());
         ext.setLanguage(param.getLang());
         try {
-            return ext.doOCR(param.getInputFile());
+            return new Result(ext.doOCR(param.getInputFile()));
         } catch (TesseractException ex) {
-            throw new Exception(ex.getMessage());
+            throw new ExtractException(ex);
         }
     }
 }

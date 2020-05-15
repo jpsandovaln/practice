@@ -7,7 +7,9 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.model.parameter;
+package com.jalasoft.practice.model.extract.parameter;
+
+import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 
 import java.io.File;
 
@@ -26,12 +28,12 @@ public class Parameter {
         return inputFile;
     }
 
-    public void validate() throws Exception {
+    public void validate() throws ParameterInvalidException {
         if(inputFile.isHidden()) {
-            throw new Exception("Error is hidden");
+            throw new ParameterInvalidException();
         }
         if(!inputFile.isFile()) {
-            throw new Exception("Error is not file");
+            throw new ParameterInvalidException();
         }
     }
 }

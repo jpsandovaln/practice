@@ -13,18 +13,20 @@ package com.jalasoft.practice.controller.response;
  * @author HP
  * @version 1.1
  */
-public abstract class Response {
-    String status;
+public class OKResponse extends Response {
+    String message;
 
-    public Response(String status) {
-        this.status =  status;
+    public OKResponse(String message, String status) {
+        super(status);
+        this.message = message;
     }
 
-    public String getStatus() {
-        return status;
+    public String getMessage() {
+        return message;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setMessage(String message) {
+        this.message = message;
     }
+
 }

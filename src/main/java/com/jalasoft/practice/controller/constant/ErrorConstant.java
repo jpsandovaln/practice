@@ -7,24 +7,13 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.controller.response;
+package com.jalasoft.practice.controller.constant;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class Response {
-    String status;
-
-    public Response(String status) {
-        this.status =  status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+public class ErrorConstant {
+    public static final String MD5_ERROR = "md5 error";
+    public static final String FILE_ERROR = "File error";
 }
