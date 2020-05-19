@@ -13,10 +13,10 @@ package com.jalasoft.practice.controller.response;
  * @author HP
  * @version 1.1
  */
-public class ErrorResponse extends Response{
+public class ErrorResponse<T> extends Response<T>{
     String error;
 
-    public ErrorResponse(String error, String status) {
+    public ErrorResponse(String error, T status) {
         super(status);
         this.error = error;
     }

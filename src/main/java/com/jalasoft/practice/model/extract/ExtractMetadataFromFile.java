@@ -11,9 +11,18 @@ package com.jalasoft.practice.model.extract;
 
 import com.jalasoft.practice.model.extract.exception.ExtractException;
 import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
+import com.jalasoft.practice.model.extract.parameter.ExtractMetadataParam;
+import com.jalasoft.practice.model.extract.parameter.ExtractTextParam;
 import com.jalasoft.practice.model.extract.parameter.Parameter;
 import com.jalasoft.practice.model.extract.result.Result;
 
-public interface IExtractor<T extends Parameter> {
-    Result extract(T param) throws ParameterInvalidException, ExtractException;
+/**
+ * @author HP
+ * @version 1.1
+ */
+public class ExtractMetadataFromFile implements IExtractor<ExtractMetadataParam> {
+    @Override
+    public Result extract(ExtractMetadataParam param) throws ParameterInvalidException, ExtractException {
+        return null;
+    }
 }
