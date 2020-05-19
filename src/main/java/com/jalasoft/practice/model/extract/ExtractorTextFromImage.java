@@ -12,6 +12,7 @@ package com.jalasoft.practice.model.extract;
 import com.jalasoft.practice.model.extract.exception.ExtractException;
 import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.extract.parameter.ExtractTextParam;
+import com.jalasoft.practice.model.extract.parameter.Parameter;
 import com.jalasoft.practice.model.extract.result.Result;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -22,7 +23,7 @@ import net.sourceforge.tess4j.TesseractException;
  * @author HP
  * @version 1.1
  */
-public class ExtractorTextFromImage implements IExtractor {
+public class ExtractorTextFromImage implements IExtractor<ExtractTextParam> {
 
     @Override
     public Result extract(ExtractTextParam param) throws ParameterInvalidException, ExtractException {
