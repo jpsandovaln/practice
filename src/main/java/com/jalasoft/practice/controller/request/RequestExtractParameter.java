@@ -18,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class RequestExtractParameter {
     private String lang;
     private String md5;
-    private MultipartFile file;
+    private MultipartFile[] file;
 
-    public RequestExtractParameter(String lang, String md5, MultipartFile file) {
+    public RequestExtractParameter(String lang, String md5, MultipartFile[] file) {
         this.lang = lang;
         this.md5 = md5;
         this.file = file;
@@ -42,11 +42,11 @@ public class RequestExtractParameter {
         this.md5 = md5;
     }
 
-    public MultipartFile getFile() {
+    public MultipartFile[] getFile() {
         return file;
     }
 
-    public void setFile(MultipartFile file) {
+    public void setFile(MultipartFile[] file) {
         this.file = file;
     }
 }

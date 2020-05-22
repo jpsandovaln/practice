@@ -30,10 +30,31 @@ import java.nio.file.StandardCopyOption;
  * @version 1.1
  */
 @Service
-public class FileService {
+public class FileService implements Runnable {
 
     @Autowired
     private Properties properties;
+
+    private MultipartFile file;
+    private String md5;
+    private File savedFile;
+
+    public void setFields(MultipartFile file, String md5) {
+        this.file = file;
+        this.md5 = md5;
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.savedFile = this.store(this.file, this.md5);
+        } catch (FileException ex) {
+        }
+    }
+
+    public File getSavedFile() {
+        return savedFile;
+    }
 
     public File store(MultipartFile file, String md5) throws FileException {
         if (md5.trim().isEmpty()) {
