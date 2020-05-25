@@ -22,6 +22,8 @@ public class Properties {
 
     String inputFolder;
     String tessdataFolder;
+    String exiftoolBinary;
+    String publicFolder;
 
     public String getInputFolder() {
         return inputFolder;
@@ -37,5 +39,21 @@ public class Properties {
 
     public void setTessdataFolder(String tessdataFolder) {
         this.tessdataFolder = tessdataFolder;
+    }
+
+    public String getExiftoolBinary() {
+        return exiftoolBinary;
+    }
+
+    public void setExiftoolBinary(String exiftoolBinary) {
+        this.exiftoolBinary = exiftoolBinary;
+    }
+
+    public String getPublicFolder() {
+        return publicFolder;
+    }
+
+    public void setPublicFolder(String publicFolder) {
+        this.publicFolder = publicFolder;
     }
 }
