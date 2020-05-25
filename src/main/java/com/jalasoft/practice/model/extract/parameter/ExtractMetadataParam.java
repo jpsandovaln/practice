@@ -18,11 +18,13 @@ import java.io.File;
 public class ExtractMetadataParam extends Parameter {
     String type;
     String outDir;
+    String exifToolBinaryDir;
 
-    public ExtractMetadataParam(File inputFile, String type, String outDir) {
+    public ExtractMetadataParam(File inputFile, String type, String outDir, String exifToolBinaryDir) {
         super(inputFile);
         this.type = type;
         this.outDir = outDir;
+        this.exifToolBinaryDir = exifToolBinaryDir;
     }
 
     public String getType() {
@@ -39,5 +41,13 @@ public class ExtractMetadataParam extends Parameter {
 
     public void setOutDir(String outDir) {
         this.outDir = outDir;
+    }
+
+    public String getExifToolBinaryDir() {
+        return exifToolBinaryDir;
+    }
+
+    public void setExifToolBinaryDir(String exifToolBinaryDir) {
+        this.exifToolBinaryDir = exifToolBinaryDir;
     }
 }
