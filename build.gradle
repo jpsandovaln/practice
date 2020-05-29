@@ -28,4 +28,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     // https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j
     compile group: 'net.sourceforge.tess4j', name: 'tess4j', version: '3.4.8'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
 }
