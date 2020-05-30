@@ -45,7 +45,7 @@ public class ExtractorTextFromImageTest {
         assertEquals("7; K", ext.extract(param).getText());
     }
 
-    @Test(expected = ExtractException.class)
+    @Test(expected = ParameterInvalidException.class)
     public void extractTextFromTextFile() throws ParameterInvalidException, ExtractException {
         ExtractTextParam param = new ExtractTextParam(
                 new File(PATH + "test.txt"),
