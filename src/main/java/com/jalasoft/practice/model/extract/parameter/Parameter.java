@@ -17,8 +17,8 @@ import java.io.File;
  * @author HP
  * @version 1.1
  */
-public class Parameter {
-    File inputFile;
+public abstract class Parameter {
+    protected File inputFile;
 
     public Parameter(File inputFile) {
         this.inputFile = inputFile;
@@ -28,12 +28,5 @@ public class Parameter {
         return inputFile;
     }
 
-    public void validate() throws ParameterInvalidException {
-        if(inputFile.isHidden()) {
-            throw new ParameterInvalidException();
-        }
-        if(!inputFile.isFile()) {
-            throw new ParameterInvalidException();
-        }
-    }
+    public abstract void validate() throws ParameterInvalidException;
 }
