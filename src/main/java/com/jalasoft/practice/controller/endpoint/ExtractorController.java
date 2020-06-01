@@ -2,6 +2,7 @@ package com.jalasoft.practice.controller.endpoint;
 
 import com.jalasoft.practice.controller.component.Properties;
 import com.jalasoft.practice.controller.exception.FileException;
+import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
 import com.jalasoft.practice.controller.request.RequestExtractMetadataParameter;
 import com.jalasoft.practice.controller.request.RequestExtractParameter;
 import com.jalasoft.practice.controller.response.ErrorResponse;
@@ -38,6 +39,7 @@ public class ExtractorController {
     @PostMapping("/extractor")
     public ResponseEntity extract(RequestExtractParameter parameter) {
         try {
+            parameter.validate();
             File image = fileService.store(parameter.getFile(), parameter.getMd5());
             String tessData = properties.getTessdataFolder();
 
@@ -46,6 +48,10 @@ public class ExtractorController {
 
             return ResponseEntity.ok().body(
                     new OKResponse<Integer>(result.getText(), HttpServletResponse.SC_OK)
+            );
+        } catch (RequestParamInvalidException ex) {
+            return ResponseEntity.badRequest().body(
+                    new ErrorResponse<Integer>(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
             );
         } catch (FileException ex) {
             return ResponseEntity.badRequest().body(
