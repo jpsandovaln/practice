@@ -7,40 +7,28 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.controller.request;
+package com.jalasoft.practice.common.validation;
 
+import com.jalasoft.practice.common.constant.ErrorMessageConstant;
 import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
+import com.sun.org.apache.bcel.internal.generic.PUSH;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class RequestParameter {
-    protected String md5;
-    protected MultipartFile file;
+public class MultipartValidation implements IValidatorStrategy {
 
-    public RequestParameter(String md5, MultipartFile file) {
-        this.md5 = md5;
+    private MultipartFile file;
+    public MultipartValidation(MultipartFile file) {
         this.file = file;
     }
-
-    public String getMd5() {
-        return md5;
+    @Override
+    public void validate() throws InvalidDataException {
+        if (this.file == null || this.file.isEmpty() || this.file.getOriginalFilename().contains("..")) {
+            throw new InvalidDataException(ErrorMessageConstant.MULTIPART_ERROR_MESSAGE);
+        }
     }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
-    }
-
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    public abstract void validate() throws InvalidDataException;
 }

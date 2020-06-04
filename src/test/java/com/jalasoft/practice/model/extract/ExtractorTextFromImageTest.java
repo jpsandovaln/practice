@@ -9,6 +9,7 @@
 
 package com.jalasoft.practice.model.extract;
 
+import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.model.extract.exception.ExtractException;
 import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.extract.parameter.ExtractTextParam;
@@ -24,7 +25,7 @@ public class ExtractorTextFromImageTest {
     private final static String TESS4J = "thirdParty/Tess4j/tessdata";
 
     @Test
-    public void extractTextValidImage() throws ParameterInvalidException, ExtractException {
+    public void extractTextValidImage() throws InvalidDataException, ExtractException {
         ExtractTextParam param = new ExtractTextParam(
                 new File(PATH + "number.png"),
                 "eng",
@@ -35,7 +36,7 @@ public class ExtractorTextFromImageTest {
     }
 
     @Test
-    public void extractTextValidImageWithoutText() throws ParameterInvalidException, ExtractException {
+    public void extractTextValidImageWithoutText() throws InvalidDataException, ExtractException {
         ExtractTextParam param = new ExtractTextParam(
                 new File(PATH + "susto.jpg"),
                 "eng",
@@ -45,8 +46,8 @@ public class ExtractorTextFromImageTest {
         assertEquals("7; K", ext.extract(param).getText());
     }
 
-    @Test(expected = ParameterInvalidException.class)
-    public void extractTextFromTextFile() throws ParameterInvalidException, ExtractException {
+    @Test(expected = InvalidDataException.class)
+    public void extractTextFromTextFile() throws InvalidDataException, ExtractException {
         ExtractTextParam param = new ExtractTextParam(
                 new File(PATH + "test.txt"),
                 "eng",
@@ -57,8 +58,8 @@ public class ExtractorTextFromImageTest {
 
     }
 
-    @Test(expected = ParameterInvalidException.class)
-    public void extractTextInvalidTessdata() throws ParameterInvalidException, ExtractException {
+    @Test(expected = InvalidDataException.class)
+    public void extractTextInvalidTessdata() throws InvalidDataException, ExtractException {
         ExtractTextParam param = new ExtractTextParam(
                 new File(PATH + "number.png"),
                 "eng",
@@ -68,8 +69,8 @@ public class ExtractorTextFromImageTest {
         ext.extract(param);
     }
 
-    @Test(expected = ParameterInvalidException.class)
-    public void extractTextInvalidParameter() throws ParameterInvalidException, ExtractException {
+    @Test(expected = InvalidDataException.class)
+    public void extractTextInvalidParameter() throws InvalidDataException, ExtractException {
         ExtractorTextFromImage ext = new ExtractorTextFromImage();
         ext.extract(null);
     }

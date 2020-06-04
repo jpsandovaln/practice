@@ -9,7 +9,14 @@
 
 package com.jalasoft.practice.controller.request;
 
-import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
+import com.jalasoft.practice.common.exception.InvalidDataException;
+import com.jalasoft.practice.common.validation.IValidatorStrategy;
+import com.jalasoft.practice.common.validation.LanguageValidation;
+import com.jalasoft.practice.common.validation.MD5Validation;
+import com.jalasoft.practice.common.validation.MimeTypeValidation;
+import com.jalasoft.practice.common.validation.MultipartValidation;
+import com.jalasoft.practice.common.validation.NotNullOrEmptyValidation;
+import com.jalasoft.practice.common.validation.ValidationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
@@ -37,28 +44,16 @@ public class RequestExtractParameter extends RequestParameter {
     }
 
     @Override
-    public void validate() throws RequestParamInvalidException {
-        if (this.md5 == null || this.md5.trim().isEmpty()) {
-            throw new RequestParamInvalidException("md5 is null or empty");
-        }
-        if (!this.md5.matches("[a-fA-F0-9]{32}")) {
-            throw new RequestParamInvalidException("md5 invalid");
-        }
-        if (this.file == null || this.file.isEmpty()) {
-            throw new RequestParamInvalidException("file is null or empty");
-        }
-        if (this.file.getContentType() == null || !this.file.getContentType().startsWith("image")) {
-            throw new RequestParamInvalidException("invalid file format.");
-        }
-        if (this.file.getOriginalFilename().contains("..")) {
-            throw new RequestParamInvalidException("invalid file name.");
-        }
-        if (this.lang == null || this.lang.trim().isEmpty()) {
-            throw new RequestParamInvalidException("lang is null or empty");
-        }
-        if (!LANGUAGES.contains(this.lang)) {
-            throw new RequestParamInvalidException("lang not allowed.");
-        }
-
+    public void validate() throws InvalidDataException {
+        List<IValidatorStrategy> strategyList = Arrays.asList(
+                new NotNullOrEmptyValidation("md5", this.md5),
+                new MD5Validation(this.md5),
+                new MultipartValidation(this.file),
+                new MimeTypeValidation(this.file.getContentType()),
+                new NotNullOrEmptyValidation("lang", this.lang),
+                new LanguageValidation(this.lang)
+        );
+        ValidationContext context = new ValidationContext(strategyList);
+        context.validate();
     }
 }

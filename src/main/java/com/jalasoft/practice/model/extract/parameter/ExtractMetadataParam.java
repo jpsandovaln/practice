@@ -9,6 +9,15 @@
 
 package com.jalasoft.practice.model.extract.parameter;
 
+import com.jalasoft.practice.common.Util;
+import com.jalasoft.practice.common.exception.InvalidDataException;
+import com.jalasoft.practice.common.validation.ExtensionValidation;
+import com.jalasoft.practice.common.validation.FileValidation;
+import com.jalasoft.practice.common.validation.IValidatorStrategy;
+import com.jalasoft.practice.common.validation.LanguageValidation;
+import com.jalasoft.practice.common.validation.MimeTypeValidation;
+import com.jalasoft.practice.common.validation.NotNullOrEmptyValidation;
+import com.jalasoft.practice.common.validation.ValidationContext;
 import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 
 import java.io.File;
@@ -57,42 +66,18 @@ public class ExtractMetadataParam extends Parameter {
     }
 
     @Override
-    public void validate() throws ParameterInvalidException {
-        if (!inputFile.exists()) {
-            throw new ParameterInvalidException("The input file does not exist");
-        }
+    public void validate() throws InvalidDataException {
+        List<IValidatorStrategy> strategyList = Arrays.asList(
+                new FileValidation(this.inputFile, true),
+                new MimeTypeValidation(Util.getMimeType(this.inputFile)),
+                new NotNullOrEmptyValidation("outDir", this.outDir),
+                new FileValidation(new File(this.outDir), false),
+                new FileValidation(new File(this.exifToolBinaryDir), true),
+                new NotNullOrEmptyValidation("type", this.type),
+                new ExtensionValidation(this.type)
+        );
 
-        if(inputFile.isHidden()) {
-            throw new ParameterInvalidException();
-        }
-
-        if(!inputFile.isFile()) {
-            throw new ParameterInvalidException();
-        }
-
-        if(inputFile.toPath().toString().contains("..")) {
-            throw new ParameterInvalidException("Invalid input file path.");
-        }
-
-        if (this.exifToolBinaryDir == null || this.exifToolBinaryDir.trim().isEmpty()) {
-            throw new ParameterInvalidException("exifToolBinaryDir is null or empty");
-        }
-
-        File exifToolBinaryFolder = new File(this.exifToolBinaryDir);
-        if (!exifToolBinaryFolder.exists()) {
-            throw new ParameterInvalidException("exifToolBinaryDir", exifToolBinaryDir);
-        }
-
-        if (!exifToolBinaryFolder.isFile()) {
-            throw new ParameterInvalidException("exifToolBinaryDir is not a file");
-        }
-
-        if (this.type.trim().isEmpty()) {
-            throw new ParameterInvalidException();
-        }
-
-        if (!TYPE_LIST.contains(this.type)) {
-            throw new ParameterInvalidException("type", type);
-        }
+        ValidationContext context = new ValidationContext(strategyList);
+        context.validate();
     }
 }
