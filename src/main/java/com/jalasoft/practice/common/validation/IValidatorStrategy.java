@@ -7,13 +7,10 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.model.extract;
+package com.jalasoft.practice.common.validation;
 
 import com.jalasoft.practice.common.exception.InvalidDataException;
-import com.jalasoft.practice.model.extract.exception.ExtractException;
-import com.jalasoft.practice.model.extract.parameter.Parameter;
-import com.jalasoft.practice.model.extract.result.Result;
 
-public interface IExtractor<T extends Parameter> {
-    Result extract(T param) throws InvalidDataException, ExtractException;
+public interface IValidatorStrategy {
+    void validate() throws InvalidDataException;
 }

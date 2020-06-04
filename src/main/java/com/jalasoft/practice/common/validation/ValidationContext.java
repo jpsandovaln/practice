@@ -7,27 +7,26 @@
  *  license agreement you entered into with Jalasoft.
  */
 
-package com.jalasoft.practice.model.extract.parameter;
+package com.jalasoft.practice.common.validation;
 
 import com.jalasoft.practice.common.exception.InvalidDataException;
-import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 
-import java.io.File;
+import java.util.List;
 
 /**
  * @author HP
  * @version 1.1
  */
-public abstract class Parameter {
-    protected File inputFile;
+public class ValidationContext {
+    List<IValidatorStrategy> validationList;
 
-    public Parameter(File inputFile) {
-        this.inputFile = inputFile;
+    public ValidationContext(List<IValidatorStrategy> validationList) {
+        this.validationList = validationList;
     }
 
-    public File getInputFile() {
-        return inputFile;
+    public void validate() throws InvalidDataException {
+        for (IValidatorStrategy strategy : validationList) {
+            strategy.validate();
+        }
     }
-
-    public abstract void validate() throws InvalidDataException;
 }

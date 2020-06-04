@@ -9,6 +9,14 @@
 
 package com.jalasoft.practice.model.extract.parameter;
 
+import com.jalasoft.practice.common.Util;
+import com.jalasoft.practice.common.exception.InvalidDataException;
+import com.jalasoft.practice.common.validation.FileValidation;
+import com.jalasoft.practice.common.validation.IValidatorStrategy;
+import com.jalasoft.practice.common.validation.LanguageValidation;
+import com.jalasoft.practice.common.validation.MimeTypeValidation;
+import com.jalasoft.practice.common.validation.NotNullOrEmptyValidation;
+import com.jalasoft.practice.common.validation.ValidationContext;
 import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 
 import java.io.File;
@@ -50,53 +58,17 @@ public class ExtractTextParam extends Parameter {
     }
 
     @Override
-    public void validate() throws ParameterInvalidException {
-        if (!inputFile.exists()) {
-            throw new ParameterInvalidException("The input file does not exist");
-        }
+    public void validate() throws InvalidDataException {
+        List<IValidatorStrategy> strategyList = Arrays.asList(
+                new FileValidation(this.inputFile, true),
+                new MimeTypeValidation(Util.getMimeType(this.inputFile)),
+                new NotNullOrEmptyValidation("tessData", this.tessData),
+                new FileValidation(new File(this.tessData), false),
+                new NotNullOrEmptyValidation("lang", this.lang),
+                new LanguageValidation(this.lang)
+        );
 
-        if(inputFile.isHidden()) {
-            throw new ParameterInvalidException();
-        }
-
-        if(!inputFile.isFile()) {
-            throw new ParameterInvalidException();
-        }
-
-        if(inputFile.toPath().toString().contains("..")) {
-            throw new ParameterInvalidException("Invalid input file path.");
-        }
-
-        String mimeType = "";
-        try {
-            mimeType = Files.probeContentType(inputFile.toPath());
-        } catch(IOException ex) {
-            throw new ParameterInvalidException(ex);
-        }
-
-        if (!mimeType.contains("image")) {
-            throw new ParameterInvalidException("input file is not image.");
-        }
-
-        if (this.tessData == null || this.tessData.trim().isEmpty()) {
-            throw new ParameterInvalidException("tessData is null or empty");
-        }
-
-        File tessDataFolder = new File(this.tessData);
-        if (!tessDataFolder.exists()) {
-            throw new ParameterInvalidException("tessData", tessData);
-        }
-
-        if (!tessDataFolder.isDirectory()) {
-            throw new ParameterInvalidException("tessData is not a directory");
-        }
-
-        if (this.lang.trim().isEmpty()) {
-            throw new ParameterInvalidException();
-        }
-
-        if (!LANGUAGES.contains(this.lang)) {
-            throw new ParameterInvalidException("lang", lang);
-        }
+        ValidationContext context = new ValidationContext(strategyList);
+        context.validate();
     }
 }
