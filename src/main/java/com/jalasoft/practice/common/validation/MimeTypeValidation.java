@@ -9,7 +9,10 @@
 
 package com.jalasoft.practice.common.validation;
 
+import com.jalasoft.practice.common.configuration.ConfigurationProperty;
+import com.jalasoft.practice.common.configuration.PropertyHandler;
 import com.jalasoft.practice.common.constant.ErrorMessageConstant;
+import com.jalasoft.practice.common.constant.PropertyConstant;
 import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
 
@@ -23,15 +26,11 @@ import java.util.List;
 public class MimeTypeValidation implements IValidatorStrategy {
 
     private String mimeType;
-    private final static List<String> MIME_TYPE_LIST = Arrays.asList(
-            "image/gif",
-            "image/png",
-            "image/jpeg",
-            "image/bmp"
-    );
+    private List<String> MIME_TYPE_LIST;
 
-    public MimeTypeValidation(String mimeType) {
+    public MimeTypeValidation(String mimeType) throws InvalidDataException {
         this.mimeType = mimeType;
+        this.MIME_TYPE_LIST = ConfigurationProperty.getMimeType();
     }
 
     @Override

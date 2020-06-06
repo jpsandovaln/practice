@@ -9,9 +9,13 @@
 
 package com.jalasoft.practice.common.validation;
 
+import com.jalasoft.practice.common.configuration.ConfigurationProperty;
+import com.jalasoft.practice.common.configuration.PropertyHandler;
 import com.jalasoft.practice.common.constant.ErrorMessageConstant;
+import com.jalasoft.practice.common.constant.PropertyConstant;
 import com.jalasoft.practice.common.exception.InvalidDataException;
 
+import javax.security.auth.login.Configuration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,13 +26,11 @@ import java.util.List;
 public class LanguageValidation implements IValidatorStrategy {
 
     private String lang;
-    private final static List<String> LANGUAGES = Arrays.asList(
-            "eng",
-            "spa"
-    );
+    private List<String> LANGUAGES;
 
-    public LanguageValidation(String lang) {
+    public LanguageValidation(String lang) throws InvalidDataException {
         this.lang = lang;
+        this.LANGUAGES = ConfigurationProperty.getLanguages();
     }
 
     @Override
