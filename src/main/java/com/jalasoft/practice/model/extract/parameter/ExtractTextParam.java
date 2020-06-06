@@ -17,11 +17,8 @@ import com.jalasoft.practice.common.validation.LanguageValidation;
 import com.jalasoft.practice.common.validation.MimeTypeValidation;
 import com.jalasoft.practice.common.validation.NotNullOrEmptyValidation;
 import com.jalasoft.practice.common.validation.ValidationContext;
-import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 

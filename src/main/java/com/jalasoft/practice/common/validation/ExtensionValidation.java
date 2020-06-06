@@ -9,9 +9,14 @@
 
 package com.jalasoft.practice.common.validation;
 
+import com.jalasoft.practice.common.configuration.ConfigurationProperty;
+import com.jalasoft.practice.common.configuration.PropertyHandler;
 import com.jalasoft.practice.common.constant.ErrorMessageConstant;
+import com.jalasoft.practice.common.constant.PropertyConstant;
 import com.jalasoft.practice.common.exception.InvalidDataException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.security.auth.login.Configuration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,13 +27,11 @@ import java.util.List;
 public class ExtensionValidation implements IValidatorStrategy {
 
     private String ext;
-    private final static List<String> EXTENSIONS = Arrays.asList(
-            "txt",
-            "xmp"
-    );
+    private List<String> EXTENSIONS;
 
-    public ExtensionValidation(String ext) {
+    public ExtensionValidation(String ext) throws InvalidDataException {
         this.ext = ext;
+        this.EXTENSIONS = ConfigurationProperty.getExtension();
     }
 
     @Override
