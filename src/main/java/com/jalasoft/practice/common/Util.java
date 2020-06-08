@@ -10,6 +10,10 @@
 package com.jalasoft.practice.common;
 
 import com.jalasoft.practice.common.exception.InvalidDataException;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +29,20 @@ public class Util {
             return Files.probeContentType(file.toPath());
         } catch (IOException ex) {
             return "";
+        }
+    }
+
+    public static String zipFile(String file) {
+        try {
+            String zipPath = file + ".zip";
+            ZipFile zipFile = new ZipFile(new File(zipPath));
+            ZipParameters parameters = new ZipParameters();
+            parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+            zipFile.addFile(new File(file), parameters);
+            return zipPath;
+        } catch (ZipException ex) {
+            return null;
         }
     }
 }

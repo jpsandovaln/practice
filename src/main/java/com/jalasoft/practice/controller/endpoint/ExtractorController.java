@@ -3,18 +3,15 @@ package com.jalasoft.practice.controller.endpoint;
 import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.controller.component.Properties;
 import com.jalasoft.practice.controller.exception.FileException;
-import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
 import com.jalasoft.practice.controller.request.RequestExtractMetadataParameter;
 import com.jalasoft.practice.controller.request.RequestExtractParameter;
 import com.jalasoft.practice.controller.response.ErrorResponse;
 import com.jalasoft.practice.controller.response.OKResponse;
 import com.jalasoft.practice.controller.service.FileService;
-import com.jalasoft.practice.model.extract.ExtractMetadataFromFile;
-import com.jalasoft.practice.model.extract.ExtractorTextFromImage;
+import com.jalasoft.practice.model.extract.ExtractFactory;
 
 import com.jalasoft.practice.model.extract.IExtractor;
 import com.jalasoft.practice.model.extract.exception.ExtractException;
-import com.jalasoft.practice.model.extract.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.extract.parameter.ExtractMetadataParam;
 import com.jalasoft.practice.model.extract.parameter.ExtractTextParam;
 import com.jalasoft.practice.model.extract.result.Result;
@@ -44,7 +41,7 @@ public class ExtractorController {
             File image = fileService.store(parameter.getFile(), parameter.getMd5());
             String tessData = properties.getTessdataFolder();
 
-            IExtractor<ExtractTextParam> ext = new ExtractorTextFromImage();
+            IExtractor<ExtractTextParam> ext = ExtractFactory.createExtractor(ExtractFactory.TEXT);
             Result result = ext.extract(new ExtractTextParam(image, parameter.getLang(), tessData));
 
             return ResponseEntity.ok().body(
@@ -74,7 +71,7 @@ public class ExtractorController {
         try {
             parameter.validate();
             File image = fileService.store(parameter.getFile(), parameter.getMd5());
-            IExtractor<ExtractMetadataParam> ext = new ExtractMetadataFromFile();
+            IExtractor<ExtractMetadataParam> ext = ExtractFactory.createExtractor(ExtractFactory.METADATA);
             Result result = ext.extract(
                     new ExtractMetadataParam(
                             image,

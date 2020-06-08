@@ -25,7 +25,7 @@ import java.nio.file.Paths;
  * @author HP
  * @version 1.1
  */
-public class ExtractMetadataFromFile implements IExtractor<ExtractMetadataParam> {
+class ExtractMetadataFromFile implements IExtractor<ExtractMetadataParam> {
     @Override
     public Result extract(ExtractMetadataParam param) throws InvalidDataException, ExtractException {
         param.validate();

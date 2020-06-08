@@ -24,7 +24,7 @@ import net.sourceforge.tess4j.TesseractException;
  * @author HP
  * @version 1.1
  */
-public class ExtractorTextFromImage implements IExtractor<ExtractTextParam> {
+class ExtractorTextFromImage implements IExtractor<ExtractTextParam> {
 
     @Override
     public Result extract(ExtractTextParam param) throws InvalidDataException, ExtractException {
